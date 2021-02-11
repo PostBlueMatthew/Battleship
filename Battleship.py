@@ -17,4 +17,11 @@ def build_board():                                                  #builds an 1
         board[i] = swap
         swap = []
     return board
-    
+
+def show_board(player_board):                                       #shows the board in a visually appealing style that can be readily understood by the player
+    for i in range(0,3):
+        print(" ")
+    for i in player_board:
+        print(player_board[i])
+    for i in range(0,3):
+        print(" ")
