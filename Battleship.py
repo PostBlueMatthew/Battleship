@@ -52,5 +52,12 @@ def build_fleet():                                                              
         
     return temp
 
+def show_fleet(fleet):                                                                                      #shows each piece contained within the fleet array
+                                                                                                            #each piece segment lists what quadrant it has been placed in 
+                                                                                                            #if the piece segment contains the first letter of its ship type the piece is unset
+    for i in range(1, len(fleet)):
+        print(i, end=" - ")
+        print(fleet[i].positions)
+
 x = build_board()
 show_board(x)
