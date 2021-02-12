@@ -11,7 +11,7 @@ class Piece:                                                                    
         self.direction = ""
         self.positions =[]
         
-    def build_piece(self):
+    def build_piece(self):                                                                                  #build command makes a string array of the first initial of the ship type, self.size long
         for i in range(0, self.size):
             self.positions.append(self.name[0])
 
