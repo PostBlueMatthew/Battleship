@@ -52,12 +52,24 @@ def build_fleet():                                                              
         
     return temp
 
-def show_fleet(fleet):                                                                                      #shows each piece contained within the fleet array
-                                                                                                            #each piece segment lists what quadrant it has been placed in 
+def show_fleet(fleet):                                                                                      #takes one fleet array and displays all segments of each fleet piece
+                                                                                                            #each segment lists what quadrant it occupies on the player's board
                                                                                                             #if the piece segment contains the first letter of its ship type the piece is unset
     for i in range(1, len(fleet)):
         print(i, end=" - ")
         print(fleet[i].positions)
+
+def is_set(player_fleet):                                                                                   #checks each piece.is_set attribute in the fleet array and returns true/false if fleet is set/not set
+        x = 0
+        for i in range(1, 6):
+            if player_fleet[i].is_set == "N":
+                x += 1
+            else:
+                continue
+        return x != 0
+
+
+
 
 x = build_board()
 show_board(x)
