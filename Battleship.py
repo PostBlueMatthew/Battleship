@@ -2,7 +2,7 @@ import random
 import time
 
 
-class Piece:                                                                                                #Ship object to represent the various ships in the game with self-contained build function
+class Piece:                                                                                                #Ship object to represent the game pieces
     def __init__(self, name, size):                                                                         
         self.size = size
         self.name = name
@@ -41,7 +41,7 @@ def show_board(player_board):                                                   
     for i in range(0,3):
         print(" ")
 
-def build_fleet():                                                                                          #function to build an array that contains the player's fleet objects
+def build_fleet():                                                                                          #function to build an array that contains the player's ship objects
     ships = [["Carrier", 5], ["Battleship", 4], ["Destroyer", 3], ["Submarine", 3], ["Patrol Boat", 2]]     #contains a list of player piece names and sizes
     temp = [0]                                                                                              #builds each piece as per list and appends it to a fleet array
                                                                                                             #Pieces are added to the array such that they colate to the 1-5 indicies
@@ -67,6 +67,14 @@ def is_set(player_fleet):                                                       
             else:
                 continue
         return x != 0
+
+def show_things(player_board, player_fleet):                                                                #function to show the player's ship board and the player's fleet in a visually appealing fashion
+    
+    show_board(player_board)
+    for i in range(3):
+        print(" ")
+    show_fleet(player_fleet)
+    print(" ")
 
 def check_target(target, player_board):                                                                     #function to check if a quadrant in a player's board is unoccupied
                                                                                                             #checks player.s input to ensure it is valid - raises a ValueError if it is not
@@ -157,14 +165,6 @@ def check_direction(ship, target, direction, player_board, player_fleet):       
 
     func = switcher.get(direction, lambda: 1/0)
     return func()
-
-def show_things(player_board, player_fleet):                                                                #function to show the player's ship board and the player's fleet in a visually appealing fashion
-    
-    show_board(player_board)
-    for i in range(3):
-        print(" ")
-    show_fleet(player_fleet)
-    print(" ")
 
 def set_fleet(player_board, player_fleet):                                                                  #primary function to set a player's fleet
                                                                                                             #utilizes the is_set function to stay active until all pieces in a player's fleet are set
