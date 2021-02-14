@@ -166,6 +166,72 @@ def check_direction(ship, target, direction, player_board, player_fleet):       
     func = switcher.get(direction, lambda: 1/0)
     return func()
 
+def set_piece(ship, target, direction, player_board, player_fleet):                                         #function to set a player's selected ship in a validated position on the player's fleet board
+                                                                                                            #contains 4 functions relative to each cardinal direction
+    def east():                                                                                             #sets the selected ship.is_set to "Y"
+        x = player_fleet[ship].size - 1                                                                     #utilizes a dictionary to run the appropriate function based on the players input
+        y = 1                                                                                               #for each ship segment, inserts the quadrant it occupies
+        z = player_fleet[ship].name[0]                                                                      #for each quadrant occupied by a ship segment, inserts the first letter of the ship into the fleet board quadrant
+        swap = target
+        while x != 0:
+            for i in range(x):
+                swap = swap[0] + str(int(1 + int(swap[1:])))
+                player_board[target[0]][y + int(target[1:])] = z
+                player_fleet[ship].positions[0 + y] = swap
+                x -= 1
+                y += 1
+
+    def west():
+        x = player_fleet[ship].size - 1
+        y = -1
+        z = player_fleet[ship].name[0]
+        swap = target
+        while x != 0:
+            for i in range(x):
+                swap = swap[0] + str(int(int(swap[1:]) - 1))
+                player_board[target[0]][y + int(target[1:])] = z
+                player_fleet[ship].positions[abs(y)] = swap
+                x -= 1
+                y -= 1
+                
+
+    def north():
+        x = player_fleet[ship].size - 1
+        y = -1
+        z = player_fleet[ship].name[0]
+        swap = target
+        while x != 0:
+            for i in range(x):
+                swap = chr(ord(target[0]) + y) + swap[1:]
+                player_board[chr(ord(target[0]) + y)][int(target[1:])] = z
+                player_fleet[ship].positions[abs(y)] = swap
+                x -= 1
+                y -= 1
+                
+    def south():
+        x = player_fleet[ship].size - 1
+        y = 0
+        z = player_fleet[ship].name[0]
+        swap = target
+        while x != 0:
+            for i in range(x):
+                swap = chr(ord(target[0]) + 1 + y) + swap[1:]
+                player_board[chr(ord(target[0]) + 1 + y)][int(target[1:])] = z
+                player_fleet[ship].positions[1 + y] = swap
+                x -= 1
+                y += 1
+            
+                
+    switcher = {"E": east, "W": west, "N": north, "S": south}
+
+    func = switcher.get(direction, lambda: 1/0)
+
+    
+    player_board[target[0]][int(target[1:])] = player_fleet[ship].name[0]
+    player_fleet[ship].positions[0] = target
+    player_fleet[ship].is_set = "Y"
+    func()
+
 def set_fleet(player_board, player_fleet):                                                                  #primary function to set a player's fleet
                                                                                                             #utilizes the is_set function to stay active until all pieces in a player's fleet are set
     show_things(player_board, player_fleet)                                                                 
