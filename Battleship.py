@@ -308,5 +308,27 @@ def set_fleet(player_board, player_fleet):                                      
     while is_set(player_fleet) != False:                                                                    #this function calls itself recursively until all ships in a player's fleet have been set
         set_fleet(player_board, player_fleet)
 
+def set_computer_fleet(computer_board, computer_fleet):                                                     #primary function to set the computer player's fleet
+    cardinals = {0: "N", 1: "S", 2: "E", 3:"W"}                                                             ##utilizes pieces_remaining and randint to select an available ship, a quadrant, and a direction to set the ship
+    available_pieces = pieces_remaining(computer_fleet)                                                     #if check_target or check_direction returns a ValueError, the function calls itself for an additional attempt
+    direction = cardinals[random.randint(0, 3)]                                                             #if check_target and check_direction returns True, sets ship in selected quadrant in selected direction
+    target = chr(random.randint(ord("A"), ord("J"))) + str(random.randint(1, 10))                           #function continues to call itself until the list of available ships is empty
+    if len(available_pieces) != 0:
+        ship = available_pieces[random.randint(0, (len(available_pieces) - 1))]
+    else:
+        return
+
+    if len(available_pieces) != 0:
+        try:
+            if check_target(target, computer_board) == True and check_direction(ship, target, direction, computer_board, computer_fleet) == True:
+                set_piece(ship, target, direction, computer_board, computer_fleet)
+                set_computer_fleet(computer_board, computer_fleet)
+            else:
+                set_computer_fleet(computer_board, computer_fleet)
+        except ValueError:
+            set_computer_fleet(computer_board, computer_fleet)
+    else:
+        return
+
 x = build_board()
 show_board(x)
