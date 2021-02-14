@@ -158,6 +158,13 @@ def check_direction(ship, target, direction, player_board, player_fleet):       
     func = switcher.get(direction, lambda: 1/0)
     return func()
 
+def show_things(player_board, player_fleet):                                                                #function to show the player's ship board and the player's fleet in a visually appealing fashion
+    
+    show_board(player_board)
+    for i in range(3):
+        print(" ")
+    show_fleet(player_fleet)
+    print(" ")
 
 x = build_board()
 show_board(x)
