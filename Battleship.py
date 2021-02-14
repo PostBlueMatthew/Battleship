@@ -68,6 +68,23 @@ def is_set(player_fleet):                                                       
                 continue
         return x != 0
 
+def check_target(target, player_board):                                                                     #helper function to check if a quadrant in a player's board is unoccupied
+                                                                                                            #checks player.s input to ensure it is valid - raises a ValueError if it is not
+    check_row = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']                                          #retuns True if unoccupied, False otherwise
+    check_column = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    if target[0] in check_row:
+        if int(target[1:]) in check_column:
+            if player_board[target[0]][int(target[1:])] == "W":
+                return True
+            elif player_board[target[0]][int(target[1:])] == "W ":
+                return True
+            else:
+                return False
+        else:
+            raise ValueError
+    else:
+        raise ValueError
 
 
 
