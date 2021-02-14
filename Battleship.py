@@ -166,5 +166,72 @@ def show_things(player_board, player_fleet):                                    
     show_fleet(player_fleet)
     print(" ")
 
+def set_fleet(player_board, player_fleet):                                                                  #primary function to set a player's fleet
+                                                                                                            #utilizes the is_set function to stay active until all pieces in a player's fleet are set
+    show_things(player_board, player_fleet)                                                                 
+                                                                                                            
+    while is_set(player_fleet):                                                                             #queries player for the desired ship to set, and checks to see if that piece is set
+        try:                                                                                                #if input is invalid or ship has been set, advises player and stays in loop until a valid ship has been selected
+            ship = int(input("Please select the ship you would like to place: "))
+            if ship not in range(1,6):
+                raise ValueError
+            elif player_fleet[ship].is_set == "Y":
+                print(" ")
+                print("You have already set this ship")
+                raise ValueError
+            else:
+                break
+        except ValueError:
+            print(" ")
+            print("Please input the corresponding number of the ship you would like to set.")
+            print(" ")
+            show_things(player_board, player_fleet)
+    
+    while is_set(player_fleet):                                                                             #queries player for an initial quadrant to set the selected ship on the player's ship board
+        try:                                                                                                #if input is invalid, advises player and stays in loop until a valid quadrant has been selected
+            print(" ")                                                                                      #if input is valid, utilizes check_target to determine if the quadrant is occupied
+            target = input("Which quadrant would you like to set it in? ").upper()                          #if the quadrant is occupied stays in loop until an unoccupied quadrant has been selected
+            if ord(target[0]) in range(ord("A"), ord("K")):
+                if int(target[1:]) in range(1, 11):
+                    if check_target(target, player_board) == True:
+                        break
+                    else:
+                        raise ValueError("You have selected an occupied quadrant. Please make another choice.")
+                else:
+                    raise ValueError
+            else:
+                raise ValueError
+        except ValueError:
+            print(" ")
+            print("Please enter the letter of the row and the number of the column for the quadrant you would like to set your ship.")
+            print(" ")
+            show_things(player_board, player_fleet)
+
+    while is_set(player_fleet):                                                                             #queries the player for the direction they want the ship to be placed in
+        try:                                                                                                #if input is invalid, advises player and stays in loop until a valid direction has been selected
+            cardinals = ["N", "S", "E", "W"]                                                                #if input is valid, utilizes check_direction to determine if the direction is unobstructed
+            print(" ")                                                                                      #if the direction is obstructed stays in loop until a valid direction has been selected
+            print(cardinals)
+            print(" ")
+            direction = input("Please select what direction you would like the ship to face: ").upper()
+            if direction in cardinals:
+                if check_direction(ship, target, direction, player_board, player_fleet) == True:
+                    break
+                else:
+                    raise ValueError
+            else:
+                raise ValueError
+        except ValueError:
+            print(" ")
+            print("There was a problem with the direction you chose and you must make a different selection.")
+            print(" ")
+            print("Please select the first letter of one of the four cardinal directions as listed.")
+            print(" ")
+            show_things(player_board, player_fleet)
+    
+    set_piece(ship, target, direction, player_board, player_fleet)                                          #if the selections pass all previous checks, utilizes set_piece to associate the selected ship's position on the player's fleet board
+    while is_set(player_fleet) != False:                                                                    #this function calls itself recursively until all ships in a player's fleet have been set
+        set_fleet(player_board, player_fleet)
+
 x = build_board()
 show_board(x)
