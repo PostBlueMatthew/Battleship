@@ -76,6 +76,15 @@ def show_things(player_board, player_fleet):                                    
     show_fleet(player_fleet)
     print(" ")
 
+def pieces_remaining(player_fleet):                                                                         #function to return a list of the remaining unset ships
+    x = []                                                                                                  #used to assist the computer player in setting its fleet
+    for i in range(1, 6):
+        if player_fleet[i].is_set == "N":
+            x.append(i)
+        else:
+            continue
+    return x
+
 def check_target(target, player_board):                                                                     #function to check if a quadrant in a player's board is unoccupied
                                                                                                             #checks player.s input to ensure it is valid - raises a ValueError if it is not
     check_row = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']                                          #retuns True if unoccupied, False otherwise
