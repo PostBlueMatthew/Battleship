@@ -185,7 +185,10 @@ def set_piece(ship, target, direction, player_board, player_fleet):             
         while x != 0:
             for i in range(x):
                 swap = swap[0] + str(int(1 + int(swap[1:])))
-                player_board[target[0]][y + int(target[1:])] = z
+                if (y + int(target[1:])) == 10:
+                    player_board[target[0]][y + int(target[1:])] = z + " "
+                else:
+                    player_board[target[0]][y + int(target[1:])] = z
                 player_fleet[ship].positions[0 + y] = swap
                 x -= 1
                 y += 1
@@ -198,7 +201,10 @@ def set_piece(ship, target, direction, player_board, player_fleet):             
         while x != 0:
             for i in range(x):
                 swap = swap[0] + str(int(int(swap[1:]) - 1))
-                player_board[target[0]][y + int(target[1:])] = z
+                if (y + int(target[1:])) == 10:
+                    player_board[target[0]][y + int(target[1:])] = z + " "
+                else:
+                    player_board[target[0]][y + int(target[1:])] = z
                 player_fleet[ship].positions[abs(y)] = swap
                 x -= 1
                 y -= 1
@@ -212,7 +218,10 @@ def set_piece(ship, target, direction, player_board, player_fleet):             
         while x != 0:
             for i in range(x):
                 swap = chr(ord(target[0]) + y) + swap[1:]
-                player_board[chr(ord(target[0]) + y)][int(target[1:])] = z
+                if (int(target[1:])) == 10:
+                    player_board[chr(ord(target[0]) + y)][int(target[1:])] = z + " "
+                else:
+                    player_board[chr(ord(target[0]) + y)][int(target[1:])] = z
                 player_fleet[ship].positions[abs(y)] = swap
                 x -= 1
                 y -= 1
@@ -225,7 +234,10 @@ def set_piece(ship, target, direction, player_board, player_fleet):             
         while x != 0:
             for i in range(x):
                 swap = chr(ord(target[0]) + 1 + y) + swap[1:]
-                player_board[chr(ord(target[0]) + 1 + y)][int(target[1:])] = z
+                if (int(target[1:])) == 10:
+                    player_board[chr(ord(target[0]) + 1 + y)][int(target[1:])] = z + " "
+                else:
+                    player_board[chr(ord(target[0]) + 1 + y)][int(target[1:])] = z
                 player_fleet[ship].positions[1 + y] = swap
                 x -= 1
                 y += 1
@@ -235,8 +247,10 @@ def set_piece(ship, target, direction, player_board, player_fleet):             
 
     func = switcher.get(direction, lambda: 1/0)
 
-    
-    player_board[target[0]][int(target[1:])] = player_fleet[ship].name[0]
+    if (int(target[1:])) == 10:
+        player_board[target[0]][int(target[1:])] = player_fleet[ship].name[0] + " "
+    else:
+        player_board[target[0]][int(target[1:])] = player_fleet[ship].name[0]
     player_fleet[ship].positions[0] = target
     player_fleet[ship].is_set = "Y"
     func()
@@ -330,5 +344,9 @@ def set_computer_fleet(computer_board, computer_fleet):                         
     else:
         return
 
-x = build_board()
-show_board(x)
+computer_board = build_board()
+computer_fleet = build_fleet()
+
+set_computer_fleet(computer_board, computer_fleet)
+
+show_things(computer_board, computer_fleet)
